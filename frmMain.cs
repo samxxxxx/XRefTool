@@ -241,15 +241,6 @@ namespace XRefTool
                 }
                 textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(res);
             }
-
-            //object instance = assembly.CreateInstance(flowTransaction.Class);
-
-            //Object[] params_obj = new Object[4];
-            //params_obj[0] = workType;
-            //params_obj[1] = workflowId;
-            //params_obj[2] = userName;
-            //params_obj[3] = paras;
-            //methodInfo.Invoke(instance, params_obj);
         }
     }
 
