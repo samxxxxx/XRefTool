@@ -73,7 +73,7 @@ namespace XRefTool.Controls
                         if (type.IsClass)
                         {
                             //var obj = Activator.CreateInstance(ParameterType);
-                            var obj = Newtonsoft.Json.JsonConvert.DeserializeObject(this.textBox1.Text, ParameterType);
+                            var obj = Newtonsoft.Json.JsonConvert.DeserializeObject(this.textBox1.Text, type);
                             return obj;
                         }
                         break;

@@ -136,10 +136,10 @@ namespace XRefTool
             {
                 e.Node.Nodes.Clear();
 
-                var tree  = e.Node as TreeNodeExt;
+                var tree = e.Node as TreeNodeExt;
 
                 var type = tree.Context.Assembly.GetType(tree.Context.ClassName, true);
-                var methods = type.GetMethods();
+                var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.IgnoreCase);
 
                 foreach (var method in methods.OrderBy(x => x.Name))
                 {
@@ -230,16 +230,48 @@ namespace XRefTool
             if (node != null && node.Context.Type == DllDataTypeEnum.方法名节点)
             {
                 object res = null;
-                if (node.Context.MethodInfo.IsStatic)
+                try
                 {
-                    res = node.Context.MethodInfo.Invoke(null, values);
+                    //if (node.Context.MethodInfo.IsStatic)
+                    //{
+                    //    res = node.Context.MethodInfo.Invoke(null, values);
+                    //}
+                    //else
+                    //{
+                    //    var instance = node.Context.Assembly.CreateInstance(node.Context.ClassName);
+                    //    res = node.Context.MethodInfo.Invoke(instance, values);
+                    //}
+
+                    AssemblyDynamicLoader loader = new AssemblyDynamicLoader(node.Context.ClassName);
+                    loader.LoadAssembly(node.Context.Assembly.Location);
+
+                    //指定运行环境的配置文件
+                    loader.SetConfig(txtConfig.Text);
+
+                    res = loader.ExecuteMothod(node.Context.ClassName, node.Context.MethodInfo.Name, values);
+
+                    txtResult.Text = Newtonsoft.Json.JsonConvert.SerializeObject(res);
                 }
-                else
+                catch (Exception ex)
                 {
-                    var instance = node.Context.Assembly.CreateInstance(node.Context.ClassName);
-                    res = node.Context.MethodInfo.Invoke(instance, values);
+                    if (ex.InnerException != null)
+                    {
+                        txtResult.Text = ex.ToString();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-                textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(res);
+            }
+        }
+
+        private void btnConfig_Click(object sender, EventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                txtConfig.Text = dlg.FileName;
             }
         }
     }

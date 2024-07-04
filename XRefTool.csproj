@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyDynamicLoader.cs" />
     <Compile Include="Controls\ucParameter.cs">
       <SubType>UserControl</SubType>
     </Compile>
