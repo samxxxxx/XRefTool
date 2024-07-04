@@ -12,7 +12,7 @@ namespace XRefTool
     {
         private AppDomain appDomain;
         private RemoteLoader remoteLoader;
-        public AssemblyDynamicLoader(string pluginName)
+        public AssemblyDynamicLoader(string pluginName, string config)
         {
             AppDomainSetup setup = new AppDomainSetup();
             setup.ApplicationName = "app_" + pluginName;
@@ -21,7 +21,9 @@ namespace XRefTool
             setup.CachePath = setup.ApplicationBase;
             setup.ShadowCopyFiles = "true";
             setup.ShadowCopyDirectories = setup.ApplicationBase;
-            AppDomain.CurrentDomain.SetShadowCopyFiles();
+
+            //设置AppDomain环境的web.config或app.config路径
+            setup.ConfigurationFile = config;
             this.appDomain = AppDomain.CreateDomain("app_" + pluginName, null, setup);
 
             String name = Assembly.GetExecutingAssembly().GetName().FullName;
@@ -82,33 +84,17 @@ namespace XRefTool
         {
             return this.appDomain.GetAssemblies();
         }
-
-        public void SetConfig(string webconfig)
-        {
-            remoteLoader.SetConfig(webconfig);
-        }
     }
 
     public class RemoteLoader : MarshalByRefObject
     {
         private Assembly _assembly;
-        private string _webConfigPath;
-
-        /// <summary>
-        /// 设置AppDomain环境的web.config或app.config路径
-        /// </summary>
-        /// <param name="webconfig"></param>
-        public void SetConfig(string webconfig)
-        {
-            _webConfigPath = webconfig;
-        }
 
         public void LoadAssembly(string assemblyFile)
         {
             try
             {
                 _assembly = Assembly.LoadFrom(assemblyFile);
-                //return _assembly;
             }
             catch (Exception ex)
             {
@@ -124,28 +110,11 @@ namespace XRefTool
             return Activator.CreateInstance(type) as T;
         }
 
-        //public object ExecuteMothod(string typeName, string args)
-        //{
-        //    if (_assembly == null) return null;
-        //    var type = _assembly.GetType(typeName);
-        //    var obj = Activator.CreateInstance(type);
-        //    if (obj is IPlugin)
-        //    {
-        //        return (obj as IPlugin).Exec(args);
-        //    }
-        //    return null;
-        //}
-
         public object ExecuteMethod(string className, string methodName, object[] paramsValues)
         {
             try
             {
                 if (_assembly == null) return null;
-                
-                if (AppDomain.CurrentDomain.SetupInformation.ConfigurationFile != _webConfigPath)
-                {
-                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", _webConfigPath);
-                }
 
                 var type = _assembly.GetType(className);
                 var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.IgnoreCase);

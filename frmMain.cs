@@ -232,22 +232,8 @@ namespace XRefTool
                 object res = null;
                 try
                 {
-                    //if (node.Context.MethodInfo.IsStatic)
-                    //{
-                    //    res = node.Context.MethodInfo.Invoke(null, values);
-                    //}
-                    //else
-                    //{
-                    //    var instance = node.Context.Assembly.CreateInstance(node.Context.ClassName);
-                    //    res = node.Context.MethodInfo.Invoke(instance, values);
-                    //}
-
-                    AssemblyDynamicLoader loader = new AssemblyDynamicLoader(node.Context.ClassName);
+                    var loader = new AssemblyDynamicLoader(node.Context.ClassName, txtConfig.Text);
                     loader.LoadAssembly(node.Context.Assembly.Location);
-
-                    //指定运行环境的配置文件
-                    loader.SetConfig(txtConfig.Text);
-
                     res = loader.ExecuteMothod(node.Context.ClassName, node.Context.MethodInfo.Name, values);
 
                     txtResult.Text = Newtonsoft.Json.JsonConvert.SerializeObject(res);
