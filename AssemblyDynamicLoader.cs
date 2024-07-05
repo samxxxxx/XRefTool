@@ -27,7 +27,7 @@ namespace XRefTool
             _setup.CachePath = _setup.ApplicationBase;
             _setup.ShadowCopyFiles = "true";
             _setup.ShadowCopyDirectories = _setup.ApplicationBase;
-
+            
             //设置AppDomain环境的web.config或app.config路径
             _setup.ConfigurationFile = config;
 

@@ -234,11 +234,19 @@ namespace XRefTool
             if (node != null && node.Context.Type == DllDataTypeEnum.方法名节点)
             {
                 object res = null;
+                AssemblyDynamicLoader loader = null;
                 try
                 {
-                    var loader = new AssemblyDynamicLoader(node.Context.ClassName, txtConfig.Text);
+                    loader = new AssemblyDynamicLoader(node.Context.ClassName, txtConfig.Text);
                     listBox1.Items.Clear();
-
+                    if (menuAtta.HasDropDownItems)
+                    {
+                        foreach (ToolStripMenuItem item in menuAtta.DropDownItems)
+                        {
+                            if (item.Checked)
+                                loader.LoadAssembly(item.Text);
+                        }
+                    }
                     loader.LoadAssembly(node.Context.Assembly.Location);
                     res = loader.ExecuteMothod(node.Context.ClassName, node.Context.MethodInfo.Name, values);
                     foreach (var item in loader.GetAssemblies())
@@ -255,12 +263,16 @@ namespace XRefTool
                     }
                     else
                     {
-                        throw;
+                        txtResult.Text = $"系统错误：\r\n{ex.ToString()}";
                     }
+                }
+                finally
+                {
+                    loader.Unload();
                 }
             }
         }
-        
+
         private void btnConfig_Click(object sender, EventArgs e)
         {
             var dlg = new OpenFileDialog();
@@ -268,6 +280,20 @@ namespace XRefTool
             {
                 txtConfig.Text = dlg.FileName;
             }
+        }
+
+        private void menuAtta_Click(object sender, EventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem(dlg.FileName);
+                item.Checked = true;
+                item.CheckOnClick = true;
+                item.CheckState = CheckState.Checked;
+                menuAtta.DropDownItems.Add(item);
+            }
+
         }
     }
 
