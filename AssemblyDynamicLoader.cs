@@ -3,31 +3,42 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace XRefTool
 {
+    [Serializable]
     public class AssemblyDynamicLoader
     {
-        private AppDomain appDomain;
-        private RemoteLoader remoteLoader;
+        private AppDomain _appDomain;
+        private RemoteLoader _remoteLoader;
+        private AppDomainSetup _setup;
+        private string _pluginName;
+        
         public AssemblyDynamicLoader(string pluginName, string config)
         {
-            AppDomainSetup setup = new AppDomainSetup();
-            setup.ApplicationName = "app_" + pluginName;
-            setup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-            setup.PrivateBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
-            setup.CachePath = setup.ApplicationBase;
-            setup.ShadowCopyFiles = "true";
-            setup.ShadowCopyDirectories = setup.ApplicationBase;
+            _pluginName = pluginName;
+            _setup = new AppDomainSetup();
+            _setup.ApplicationName = "app_" + pluginName;
+            _setup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+            _setup.PrivateBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
+            _setup.CachePath = _setup.ApplicationBase;
+            _setup.ShadowCopyFiles = "true";
+            _setup.ShadowCopyDirectories = _setup.ApplicationBase;
 
             //设置AppDomain环境的web.config或app.config路径
-            setup.ConfigurationFile = config;
-            this.appDomain = AppDomain.CreateDomain("app_" + pluginName, null, setup);
+            _setup.ConfigurationFile = config;
 
+            CreateDomain();
+        }
+
+        private void CreateDomain()
+        {
+            this._appDomain = AppDomain.CreateDomain("app_" + _pluginName, null, _setup);
             String name = Assembly.GetExecutingAssembly().GetName().FullName;
-            this.remoteLoader = (RemoteLoader)this.appDomain.CreateInstanceAndUnwrap(name, typeof(RemoteLoader).FullName);
+            this._remoteLoader = (RemoteLoader)this._appDomain.CreateInstanceAndUnwrap(name, typeof(RemoteLoader).FullName);
         }
 
         /// <summary>
@@ -36,7 +47,7 @@ namespace XRefTool
         /// <param name="assemblyFile"></param>
         public void LoadAssembly(string assemblyFile)
         {
-            remoteLoader.LoadAssembly(assemblyFile);
+            _remoteLoader.LoadAssembly(assemblyFile);
         }
 
         /// <summary>
@@ -47,8 +58,8 @@ namespace XRefTool
         /// <returns></returns>
         public T GetInstance<T>(string typeName) where T : class
         {
-            if (remoteLoader == null) return null;
-            return remoteLoader.GetInstance<T>(typeName);
+            if (_remoteLoader == null) return null;
+            return _remoteLoader.GetInstance<T>(typeName);
         }
 
         /// <summary>
@@ -59,7 +70,7 @@ namespace XRefTool
         /// <returns></returns>
         public object ExecuteMothod(string className, string methodName, object[] paramsValues)
         {
-            return remoteLoader.ExecuteMethod(className, methodName, paramsValues);
+            return _remoteLoader.ExecuteMethod(className, methodName, paramsValues);
         }
 
         /// <summary>
@@ -69,10 +80,10 @@ namespace XRefTool
         {
             try
             {
-                if (appDomain == null) return;
-                AppDomain.Unload(this.appDomain);
-                this.appDomain = null;
-                this.remoteLoader = null;
+                if (_appDomain == null) return;
+                AppDomain.Unload(this._appDomain);
+                this._appDomain = null;
+                this._remoteLoader = null;
             }
             catch (CannotUnloadAppDomainException ex)
             {
@@ -82,13 +93,18 @@ namespace XRefTool
 
         public Assembly[] GetAssemblies()
         {
-            return this.appDomain.GetAssemblies();
+            return this._appDomain.GetAssemblies();
         }
     }
 
+    [Serializable]
     public class RemoteLoader : MarshalByRefObject
     {
         private Assembly _assembly;
+        public RemoteLoader()
+        {
+
+        }
 
         public void LoadAssembly(string assemblyFile)
         {
@@ -119,13 +135,21 @@ namespace XRefTool
                 var type = _assembly.GetType(className);
                 var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.IgnoreCase);
                 var method = methods.FirstOrDefault(x => x.Name.Equals(methodName, StringComparison.OrdinalIgnoreCase));
-                var instance = Activator.CreateInstance(type);
+                if (type.IsAbstract && type.IsSealed && type.IsClass && type.GetConstructor(Type.EmptyTypes) == null && method.IsStatic)
+                {
+                    //静态类直接调用
+                    var obj = method.Invoke(null, paramsValues);
+                    return obj;
+                }
+                else
+                {
+                    var instance = Activator.CreateInstance(type);
 
-                return method.Invoke(instance, paramsValues);
+                    return method.Invoke(instance, paramsValues);
+                }
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }

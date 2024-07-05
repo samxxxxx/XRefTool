@@ -28,6 +28,10 @@ namespace XRefTool
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
             LoadDLL();
+
+#if DEBUG
+            txtConfig.Text = @"C:\Users\xiao_wu\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\XRefTool\bin\Debug\Web.config";
+#endif
         }
 
         private void LoadDLL()
@@ -233,9 +237,14 @@ namespace XRefTool
                 try
                 {
                     var loader = new AssemblyDynamicLoader(node.Context.ClassName, txtConfig.Text);
+                    listBox1.Items.Clear();
+
                     loader.LoadAssembly(node.Context.Assembly.Location);
                     res = loader.ExecuteMothod(node.Context.ClassName, node.Context.MethodInfo.Name, values);
-
+                    foreach (var item in loader.GetAssemblies())
+                    {
+                        listBox1.Items.Add($"已加载“{item.FullName}”");
+                    }
                     txtResult.Text = Newtonsoft.Json.JsonConvert.SerializeObject(res);
                 }
                 catch (Exception ex)
@@ -251,7 +260,7 @@ namespace XRefTool
                 }
             }
         }
-
+        
         private void btnConfig_Click(object sender, EventArgs e)
         {
             var dlg = new OpenFileDialog();

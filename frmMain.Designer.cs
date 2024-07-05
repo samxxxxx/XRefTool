@@ -40,8 +40,11 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnConfig = new System.Windows.Forms.Button();
             this.txtConfig = new System.Windows.Forms.TextBox();
+            this.btnConfig = new System.Windows.Forms.Button();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.ucTreeView1 = new XRefTool.Controls.ucTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -53,11 +56,20 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(931, 10);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -76,7 +88,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(339, 641);
+            this.dataGridView1.Size = new System.Drawing.Size(339, 675);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
@@ -96,13 +108,12 @@
             // 
             // txtResult
             // 
-            this.txtResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtResult.Location = new System.Drawing.Point(93, 13);
+            this.txtResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtResult.Location = new System.Drawing.Point(0, 0);
             this.txtResult.Multiline = true;
             this.txtResult.Name = "txtResult";
             this.txtResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtResult.Size = new System.Drawing.Size(913, 21);
+            this.txtResult.Size = new System.Drawing.Size(675, 168);
             this.txtResult.TabIndex = 2;
             // 
             // flowLayoutPanel1
@@ -110,7 +121,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(675, 318);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(247, 335);
             this.flowLayoutPanel1.TabIndex = 5;
             // 
             // splitContainer1
@@ -122,13 +133,13 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.ucTreeView1);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer4);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.flowLayoutPanel1);
-            this.splitContainer1.Size = new System.Drawing.Size(675, 641);
-            this.splitContainer1.SplitterDistance = 319;
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
+            this.splitContainer1.Size = new System.Drawing.Size(675, 675);
+            this.splitContainer1.SplitterDistance = 335;
             this.splitContainer1.TabIndex = 8;
             // 
             // imageList1
@@ -144,7 +155,7 @@
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 77);
+            this.splitContainer2.Location = new System.Drawing.Point(0, 43);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -154,7 +165,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
-            this.splitContainer2.Size = new System.Drawing.Size(1018, 641);
+            this.splitContainer2.Size = new System.Drawing.Size(1018, 675);
             this.splitContainer2.SplitterDistance = 339;
             this.splitContainer2.TabIndex = 9;
             // 
@@ -163,16 +174,26 @@
             this.panel1.Controls.Add(this.txtConfig);
             this.panel1.Controls.Add(this.btnConfig);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.txtResult);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1018, 77);
+            this.panel1.Size = new System.Drawing.Size(1018, 43);
             this.panel1.TabIndex = 10;
+            // 
+            // txtConfig
+            // 
+            this.txtConfig.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtConfig.Location = new System.Drawing.Point(93, 12);
+            this.txtConfig.Multiline = true;
+            this.txtConfig.Name = "txtConfig";
+            this.txtConfig.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtConfig.Size = new System.Drawing.Size(827, 21);
+            this.txtConfig.TabIndex = 4;
             // 
             // btnConfig
             // 
-            this.btnConfig.Location = new System.Drawing.Point(12, 41);
+            this.btnConfig.Location = new System.Drawing.Point(12, 11);
             this.btnConfig.Name = "btnConfig";
             this.btnConfig.Size = new System.Drawing.Size(75, 23);
             this.btnConfig.TabIndex = 3;
@@ -180,16 +201,50 @@
             this.btnConfig.UseVisualStyleBackColor = true;
             this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
             // 
-            // txtConfig
+            // splitContainer3
             // 
-            this.txtConfig.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtConfig.Location = new System.Drawing.Point(93, 42);
-            this.txtConfig.Multiline = true;
-            this.txtConfig.Name = "txtConfig";
-            this.txtConfig.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtConfig.Size = new System.Drawing.Size(913, 21);
-            this.txtConfig.TabIndex = 4;
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.txtResult);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.listBox1);
+            this.splitContainer3.Size = new System.Drawing.Size(675, 336);
+            this.splitContainer3.SplitterDistance = 168;
+            this.splitContainer3.TabIndex = 6;
+            // 
+            // listBox1
+            // 
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(675, 164);
+            this.listBox1.TabIndex = 0;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.ucTreeView1);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.flowLayoutPanel1);
+            this.splitContainer4.Size = new System.Drawing.Size(675, 335);
+            this.splitContainer4.SplitterDistance = 424;
+            this.splitContainer4.TabIndex = 8;
             // 
             // ucTreeView1
             // 
@@ -203,7 +258,7 @@
             this.ucTreeView1.Name = "ucTreeView1";
             this.ucTreeView1.SelectedImageIndex = 0;
             this.ucTreeView1.ShowNodeToolTips = true;
-            this.ucTreeView1.Size = new System.Drawing.Size(675, 319);
+            this.ucTreeView1.Size = new System.Drawing.Size(424, 335);
             this.ucTreeView1.TabIndex = 7;
             this.ucTreeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -228,6 +283,15 @@
             this.splitContainer2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -247,6 +311,9 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.TextBox txtConfig;
         private System.Windows.Forms.Button btnConfig;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.SplitContainer splitContainer4;
     }
 }
 
