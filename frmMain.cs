@@ -253,6 +253,22 @@ namespace XRefTool
                     {
                         listBox1.Items.Add($"已加载“{item.FullName}”");
                     }
+                    if (res != null )
+                    {
+                        if (res.GetType() == typeof(CustomSerializableObjet))
+                        {
+                            var cs = res as CustomSerializableObjet;
+                            res = cs.GetOriginalObject();
+                        }
+                        else
+                        {
+                            var list = res as List<CustomSerializableObjet>;
+                            if (list != null)
+                            {
+                                res = list.Select(x => x.GetOriginalObject()).ToList();
+                            }
+                        }
+                    }
                     txtResult.Text = Newtonsoft.Json.JsonConvert.SerializeObject(res);
                 }
                 catch (Exception ex)

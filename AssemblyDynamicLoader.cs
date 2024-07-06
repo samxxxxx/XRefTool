@@ -16,7 +16,7 @@ namespace XRefTool
         private RemoteLoader _remoteLoader;
         private AppDomainSetup _setup;
         private string _pluginName;
-        
+
         public AssemblyDynamicLoader(string pluginName, string config)
         {
             _pluginName = pluginName;
@@ -27,7 +27,7 @@ namespace XRefTool
             _setup.CachePath = _setup.ApplicationBase;
             _setup.ShadowCopyFiles = "true";
             _setup.ShadowCopyDirectories = _setup.ApplicationBase;
-            
+
             //设置AppDomain环境的web.config或app.config路径
             _setup.ConfigurationFile = config;
 
@@ -139,7 +139,17 @@ namespace XRefTool
                 {
                     //静态类直接调用
                     var obj = method.Invoke(null, paramsValues);
-                    return obj;
+                    var arrayObj = obj as IEnumerable<object>;
+                    if (arrayObj != null)
+                    {
+                        var listObj = new List<CustomSerializableObjet>();
+                        foreach (var item in arrayObj)
+                        {
+                            listObj.Add(new CustomSerializableObjet(item));
+                        }
+                        return listObj;
+                    }
+                    return new CustomSerializableObjet(obj);
                 }
                 else
                 {
@@ -152,6 +162,43 @@ namespace XRefTool
             {
                 throw;
             }
+        }
+    }
+
+    [Serializable]
+    public class CustomSerializableObjet : ISerializable
+    {
+        private readonly object _originalObject;
+        private readonly Type _originalType;
+        public CustomSerializableObjet(object obj)
+        {
+            _originalObject = obj;
+            _originalType = obj.GetType();
+        }
+
+        protected CustomSerializableObjet(SerializationInfo info, StreamingContext context)
+        {
+            _originalType = Type.GetType(info.GetString("OriginalType"));
+            _originalObject = Activator.CreateInstance(_originalType);
+            foreach (var field in _originalType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                object fieldValue = info.GetValue(field.Name, typeof(object));
+                field.SetValue(_originalObject, fieldValue);
+            }
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("OriginalType", _originalType.AssemblyQualifiedName);
+            foreach (var field in _originalType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                info.AddValue(field.Name, field.GetValue(_originalObject));
+            }
+        }
+
+        public object GetOriginalObject()
+        {
+            return _originalObject;
         }
     }
 }
