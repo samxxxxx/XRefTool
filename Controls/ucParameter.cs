@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Text.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -30,8 +31,8 @@ namespace XRefTool.Controls
                     case TypeCode.Object:
                         if (type.IsClass)
                         {
-                            //var obj = Activator.CreateInstance(ParameterType);
-                            var obj = Newtonsoft.Json.JsonConvert.DeserializeObject(this.textBox1.Text, type);
+                            if (string.IsNullOrEmpty(textBox1.Text)) return null;
+                            var obj = JsonSerializer.Deserialize(this.textBox1.Text, type);
                             return obj;
                         }
 
@@ -67,8 +68,8 @@ namespace XRefTool.Controls
                     default:
                         if (type.IsClass)
                         {
-                            //var obj = Activator.CreateInstance(ParameterType);
-                            var obj = Newtonsoft.Json.JsonConvert.DeserializeObject(this.textBox1.Text, type);
+                            if (string.IsNullOrEmpty(textBox1.Text)) return null;
+                            var obj = JsonSerializer.Deserialize(this.textBox1.Text, type);
                             return obj;
                         }
                         break;

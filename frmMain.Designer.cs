@@ -32,41 +32,42 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtResult = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.ucTreeView1 = new XRefTool.Controls.ucTreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtConfig = new System.Windows.Forms.TextBox();
             this.btnConfig = new System.Windows.Forms.Button();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.ucTreeView1 = new XRefTool.Controls.ucTreeView();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.菜单ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAtta = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuOpenDir = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,6 +96,20 @@
             this.dataGridView1.Size = new System.Drawing.Size(339, 650);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            // 
+            // colName
+            // 
+            this.colName.DataPropertyName = "Name";
+            this.colName.HeaderText = "文件名";
+            this.colName.Name = "colName";
+            this.colName.Width = 300;
+            // 
+            // colFile
+            // 
+            this.colFile.DataPropertyName = "DllPath";
+            this.colFile.HeaderText = "路径";
+            this.colFile.Name = "colFile";
+            this.colFile.Width = 500;
             // 
             // txtResult
             // 
@@ -132,6 +147,39 @@
             this.splitContainer1.SplitterDistance = 323;
             this.splitContainer1.TabIndex = 8;
             // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.ucTreeView1);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.flowLayoutPanel1);
+            this.splitContainer4.Size = new System.Drawing.Size(675, 323);
+            this.splitContainer4.SplitterDistance = 424;
+            this.splitContainer4.TabIndex = 8;
+            // 
+            // ucTreeView1
+            // 
+            this.ucTreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucTreeView1.FullRowSelect = true;
+            this.ucTreeView1.HideSelection = false;
+            this.ucTreeView1.HotTracking = true;
+            this.ucTreeView1.ImageIndex = 0;
+            this.ucTreeView1.ImageList = this.imageList1;
+            this.ucTreeView1.Location = new System.Drawing.Point(0, 0);
+            this.ucTreeView1.Name = "ucTreeView1";
+            this.ucTreeView1.SelectedImageIndex = 0;
+            this.ucTreeView1.ShowNodeToolTips = true;
+            this.ucTreeView1.Size = new System.Drawing.Size(424, 323);
+            this.ucTreeView1.TabIndex = 7;
+            this.ucTreeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -141,6 +189,34 @@
             this.imageList1.Images.SetKeyName(2, "c#.png");
             this.imageList1.Images.SetKeyName(3, "c#code.png");
             this.imageList1.Images.SetKeyName(4, "vxfield_icon.gif");
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.txtResult);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.listBox1);
+            this.splitContainer3.Size = new System.Drawing.Size(675, 323);
+            this.splitContainer3.SplitterDistance = 161;
+            this.splitContainer3.TabIndex = 6;
+            // 
+            // listBox1
+            // 
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(675, 158);
+            this.listBox1.TabIndex = 0;
             // 
             // splitContainer2
             // 
@@ -191,81 +267,6 @@
             this.btnConfig.UseVisualStyleBackColor = true;
             this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
             // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
-            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.txtResult);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.listBox1);
-            this.splitContainer3.Size = new System.Drawing.Size(675, 323);
-            this.splitContainer3.SplitterDistance = 161;
-            this.splitContainer3.TabIndex = 6;
-            // 
-            // listBox1
-            // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(675, 158);
-            this.listBox1.TabIndex = 0;
-            // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Name = "splitContainer4";
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.ucTreeView1);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.flowLayoutPanel1);
-            this.splitContainer4.Size = new System.Drawing.Size(675, 323);
-            this.splitContainer4.SplitterDistance = 424;
-            this.splitContainer4.TabIndex = 8;
-            // 
-            // ucTreeView1
-            // 
-            this.ucTreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucTreeView1.FullRowSelect = true;
-            this.ucTreeView1.HideSelection = false;
-            this.ucTreeView1.HotTracking = true;
-            this.ucTreeView1.ImageIndex = 0;
-            this.ucTreeView1.ImageList = this.imageList1;
-            this.ucTreeView1.Location = new System.Drawing.Point(0, 0);
-            this.ucTreeView1.Name = "ucTreeView1";
-            this.ucTreeView1.SelectedImageIndex = 0;
-            this.ucTreeView1.ShowNodeToolTips = true;
-            this.ucTreeView1.Size = new System.Drawing.Size(424, 323);
-            this.ucTreeView1.TabIndex = 7;
-            this.ucTreeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            // 
-            // colName
-            // 
-            this.colName.DataPropertyName = "Name";
-            this.colName.HeaderText = "文件名";
-            this.colName.Name = "colName";
-            this.colName.Width = 300;
-            // 
-            // colFile
-            // 
-            this.colFile.DataPropertyName = "DllPath";
-            this.colFile.HeaderText = "路径";
-            this.colFile.Name = "colFile";
-            this.colFile.Width = 500;
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -279,7 +280,8 @@
             // 菜单ToolStripMenuItem
             // 
             this.菜单ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuAtta});
+            this.menuAtta,
+            this.mnuOpenDir});
             this.菜单ToolStripMenuItem.Name = "菜单ToolStripMenuItem";
             this.菜单ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.菜单ToolStripMenuItem.Text = "菜单";
@@ -290,6 +292,13 @@
             this.menuAtta.Size = new System.Drawing.Size(152, 22);
             this.menuAtta.Text = "附加引用";
             this.menuAtta.Click += new System.EventHandler(this.menuAtta_Click);
+            // 
+            // mnuOpenDir
+            // 
+            this.mnuOpenDir.Name = "mnuOpenDir";
+            this.mnuOpenDir.Size = new System.Drawing.Size(152, 22);
+            this.mnuOpenDir.Text = "加载文件夹...";
+            this.mnuOpenDir.Click += new System.EventHandler(this.mnuOpenDir_Click);
             // 
             // frmMain
             // 
@@ -308,21 +317,21 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel1.PerformLayout();
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -351,6 +360,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 菜单ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuAtta;
+        private System.Windows.Forms.ToolStripMenuItem mnuOpenDir;
     }
 }
 

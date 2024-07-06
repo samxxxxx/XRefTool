@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Text.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +10,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using XRefTool.Controls;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace XRefTool
 {
@@ -27,16 +31,16 @@ namespace XRefTool
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
-            LoadDLL();
+            LoadDLL(AppDomain.CurrentDomain.BaseDirectory);
 
 #if DEBUG
             txtConfig.Text = @"C:\Users\xiao_wu\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\XRefTool\bin\Debug\Web.config";
 #endif
         }
 
-        private void LoadDLL()
+        private void LoadDLL(string path)
         {
-            var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
 
             var fdata = files.Select(x => new FileData { DllPath = x, Name = Path.GetFileName(x) }).ToList();
             dataGridView1.DataSource = fdata;
@@ -66,7 +70,7 @@ namespace XRefTool
             node.Context.Assembly = ass;
             node.Nodes.Clear();
 
-            foreach (var type in types.OrderBy(x=>x.FullName))
+            foreach (var type in types.OrderBy(x => x.FullName))
             {
                 if (type.IsClass && type.IsPublic)
                 {
@@ -253,7 +257,7 @@ namespace XRefTool
                     {
                         listBox1.Items.Add($"已加载“{item.FullName}”");
                     }
-                    if (res != null )
+                    if (res != null)
                     {
                         if (res.GetType() == typeof(CustomSerializableObjet))
                         {
@@ -269,7 +273,11 @@ namespace XRefTool
                             }
                         }
                     }
-                    txtResult.Text = Newtonsoft.Json.JsonConvert.SerializeObject(res);
+                    txtResult.Text = JsonSerializer.Serialize(res, new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+                    });
                 }
                 catch (Exception ex)
                 {
@@ -310,6 +318,15 @@ namespace XRefTool
                 menuAtta.DropDownItems.Add(item);
             }
 
+        }
+
+        private void mnuOpenDir_Click(object sender, EventArgs e)
+        {
+            var dlg = new FolderBrowserDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                LoadDLL(dlg.SelectedPath);
+            }
         }
     }
 
