@@ -53,6 +53,14 @@ namespace XRefTool.Controls
                     case TypeCode.Decimal:
                     case TypeCode.DateTime:
                     case TypeCode.String:
+                        if(type.BaseType == typeof(Enum)|| type == typeof(Enum))
+                        {
+                            if (!Enum.IsDefined (type, Convert.ToInt32( textBox1.Text)))
+                            {
+                                return 0;
+                            }
+                            return Enum.Parse(type, textBox1.Text);
+                        }
                         var value = Convert.ChangeType(textBox1.Text, type);
                         return value;
                         break;

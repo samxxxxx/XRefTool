@@ -66,7 +66,7 @@ namespace XRefTool
             node.Context.Assembly = ass;
             node.Nodes.Clear();
 
-            foreach (var type in types)
+            foreach (var type in types.OrderBy(x=>x.FullName))
             {
                 if (type.IsClass && type.IsPublic)
                 {
@@ -163,7 +163,7 @@ namespace XRefTool
 
                 foreach (var p in ps)
                 {
-                    var node = AddOrGetTreeNode(p.Name, e.Node.Nodes, DllDataTypeEnum.参数节点, p);
+                    var node = AddOrGetTreeNode($"{p.Name}({p.ParameterType.FullName})", e.Node.Nodes, DllDataTypeEnum.参数节点, p);
                     node.Context = context;
                     node.ImageIndex = 4;
                     node.Context.Type = DllDataTypeEnum.参数节点;

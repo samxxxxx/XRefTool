@@ -135,28 +135,32 @@ namespace XRefTool
                 var type = _assembly.GetType(className);
                 var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.IgnoreCase);
                 var method = methods.FirstOrDefault(x => x.Name.Equals(methodName, StringComparison.OrdinalIgnoreCase));
+                object obj = null;
                 if (type.IsAbstract && type.IsSealed && type.IsClass && type.GetConstructor(Type.EmptyTypes) == null && method.IsStatic)
                 {
                     //静态类直接调用
-                    var obj = method.Invoke(null, paramsValues);
-                    var arrayObj = obj as IEnumerable<object>;
-                    if (arrayObj != null)
-                    {
-                        var listObj = new List<CustomSerializableObjet>();
-                        foreach (var item in arrayObj)
-                        {
-                            listObj.Add(new CustomSerializableObjet(item));
-                        }
-                        return listObj;
-                    }
-                    return new CustomSerializableObjet(obj);
+                    obj = method.Invoke(null, paramsValues);                    
                 }
                 else
                 {
                     var instance = Activator.CreateInstance(type);
-
-                    return method.Invoke(instance, paramsValues);
+                    obj = method.Invoke(instance, paramsValues);
                 }
+
+                if (obj == null)
+                    return obj;
+
+                var arrayObj = obj as IEnumerable<object>;
+                if (arrayObj != null)
+                {
+                    var listObj = new List<CustomSerializableObjet>();
+                    foreach (var item in arrayObj)
+                    {
+                        listObj.Add(new CustomSerializableObjet(item));
+                    }
+                    return listObj;
+                }
+                return new CustomSerializableObjet(obj);
             }
             catch (Exception ex)
             {
